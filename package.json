@@ -1,0 +1,22 @@
+{
+  "name": "recommendation-engine-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@qdrant/js-client-rest": "^1.18.0",
+    "dotenv": "^17.4.2",
+    "fastify": "^5.9.0",
+    "ioredis": "^5.11.1",
+    "kafkajs": "^2.2.4"
+  }
+}

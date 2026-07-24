@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommendation Engine - Project Roadmap</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@11.15.0/dist/mermaid.min.js" integrity="sha384-yQ4mmBBT+vhTAwjFH0toJXNYJ6O4usWnt6EPIdWwrRvx2V/n5lXuDZQwQFeSFydF" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            color-scheme: light;
+            --primary: #2563eb;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --purple: #8b5cf6;
+            --pink: #ec4899;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            color: #1f2937;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2.5rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f3f4f6;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 1.2rem;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            background: transparent;
+            font-size: 1rem;
+        }
+
+        .tab:hover {
+            background: #e5e7eb;
+        }
+
+        .tab.active {
+            background: white;
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+        }
+
+        .content {
+            padding: 2.5rem;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.4s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .mermaid-container {
+            background: #f9fafb;
+            padding: 2rem;
+            border-radius: 12px;
+            overflow-x: auto;
+            margin-bottom: 2rem;
+        }
+
+        .phase-card {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .phase-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            border-color: var(--primary);
+        }
+
+        .phase-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .phase-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+
+        .phase-1 { background: #dbeafe; color: #1e40af; }
+        .phase-2 { background: #dcfce7; color: #15803d; }
+        .phase-3 { background: #fef3c7; color: #a16207; }
+        .phase-4 { background: #e9d5ff; color: #6b21a8; }
+        .phase-5 { background: #fce7f3; color: #9f1239; }
+
+        .phase-card h3 {
+            font-size: 1.5rem;
+            color: #111827;
+        }
+
+        .phase-card p {
+            color: #6b7280;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .task-list {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .task-list li {
+            padding: 0.75rem;
+            background: #f9fafb;
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .task-list li:before {
+            content: "→";
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .tech-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .tech-item:hover {
+            transform: scale(1.05);
+        }
+
+        .tech-item .icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .tech-item .name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .tech-item .desc {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, var(--primary), var(--purple));
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-left: 2rem;
+        }
+
+        .timeline-item:before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0.5rem;
+            width: 1rem;
+            height: 1rem;
+            background: var(--primary);
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px var(--primary);
+        }
+
+        .architecture-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .arch-card {
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .arch-card h4 {
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+            font-size: 1.2rem;
+        }
+
+        .arch-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .arch-card li {
+            padding: 0.5rem 0;
+            color: #4b5563;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .arch-card li:before {
+            content: "✓";
+            color: var(--success);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Recommendation Engine Roadmap</h1>
+            <p>Node.js based Scalable Real-time Recommendation System</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab(0)">📊 Architecture Flow</button>
+            <button class="tab" onclick="switchTab(1)">🗺️ Phase Roadmap</button>
+            <button class="tab" onclick="switchTab(2)">⏱️ Timeline</button>
+            <button class="tab" onclick="switchTab(3)">🛠️ Tech Stack</button>
+        </div>
+
+        <div class="content">
+            <!-- Tab 1: Architecture Flow -->
+            <div class="tab-content active">
+                <h2 style="margin-bottom: 1.5rem; color: #111827;">System Architecture & Data Flow</h2>
+                <div class="mermaid-container">
+                    <pre class="mermaid">
+graph TB
+    subgraph "Client Layer"
+        A[Client Request<br/>GET /recommend?userId=u1]
+    end
+
+    subgraph "API Gateway"
+        B[Fastify Server<br/>:8080]
+    end
+
+    subgraph "Orchestration Layer"
+        C[Pipeline Orchestrator<br/>5-Stage Process]
+    end
+
+    subgraph "Stage 1: Retrieval"
+        D1[Vector Search<br/>Qdrant DB]
+        D2[User Embedding<br/>Lookup]
+        D3[K-NN Search<br/>Top 50 Candidates]
+    end
+
+    subgraph "Stage 2: Feature Enrichment"
+        E1[Redis Feature Store<br/>Pipeline Batch Fetch]
+        E2[Item Metadata<br/>popularity, CTR, category]
+    end
+
+    subgraph "Stage 3: User Profile"
+        F1[Redis User Store]
+        F2[User Preferences<br/>age, genre, history]
+    end
+
+    subgraph "Stage 4: ML Scoring"
+        G1[ONNX Runtime<br/>CTR Prediction Model]
+        G2[Batch Inference<br/>Score all candidates]
+    end
+
+    subgraph "Stage 5: Re-ranking"
+        H1[Business Rules<br/>Filter out-of-stock]
+        H2[Boost Logic<br/>Sponsored +15%]
+        H3[Final Sort<br/>Top K Results]
+    end
+
+    subgraph "Event Streaming"
+        I[Kafka Producer<br/>Click/View Events]
+        J[Kafka Consumer<br/>Update Features]
+    end
+
+    subgraph "Storage Layer"
+        K1[(Redis<br/>Feature Store)]
+        K2[(Qdrant<br/>Vector DB)]
+        K3[((Kafka<br/>Event Bus))]
+    end
+
+    A --> B
+    B --> C
+    C --> D1
+    D1 --> D2
+    D2 --> D3
+    D3 --> E1
+    E1 --> E2
+    E2 --> F1
+    F1 --> F2
+    F2 --> G1
+    G1 --> G2
+    G2 --> H1
+    H1 --> H2
+    H2 --> H3
+    H3 --> B
+    B --> A
+
+    E1 -.-> K1
+    F1 -.-> K1
+    D1 -.-> K2
+    I -.-> K3
+    J -.-> K3
+    J -.-> K1
+
+    style A fill:#dbeafe,stroke:#1e40af,stroke-width:3px
+    style B fill:#dcfce7,stroke:#15803d,stroke-width:3px
+    style C fill:#fef3c7,stroke:#a16207,stroke-width:3px
+    style H3 fill:#fce7f3,stroke:#9f1239,stroke-width:3px
+    style K1 fill:#e0e7ff,stroke:#4338ca,stroke-width:2px
+    style K2 fill:#e0e7ff,stroke:#4338ca,stroke-width:2px
+    style K3 fill:#e0e7ff,stroke:#4338ca,stroke-width:2px
+                    </pre>
+                </div>
+
+                <div class="architecture-grid">
+                    <div class="arch-card">
+                        <h4>🎯 Current Implementation</h4>
+                        <ul>
+                            <li>Fastify REST API</li>
+                            <li>Redis Feature Store</li>
+                            <li>Mock Vector Search</li>
+                            <li>Mock ML Scoring</li>
+                            <li>Business Rule Reranking</li>
+                        </ul>
+                    </div>
+
+                    <div class="arch-card">
+                        <h4>🚧 In Progress</h4>
+                        <ul>
+                            <li>Qdrant Integration</li>
+                            <li>Real Vector Embeddings</li>
+                            <li>K-NN Search Logic</li>
+                        </ul>
+                    </div>
+
+                    <div class="arch-card">
+                        <h4>📋 Planned</h4>
+                        <ul>
+                            <li>Kafka Event Streaming</li>
+                            <li>ONNX ML Model</li>
+                            <li>Real-time Updates</li>
+                            <li>A/B Testing Framework</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2: Phase Roadmap -->
+            <div class="tab-content">
+                <h2 style="margin-bottom: 1.5rem; color: #111827;">Development Phases</h2>
+
+                <div class="phase-card">
+                    <div class="phase-header">
+                        <span class="phase-badge phase-1">Phase 1 - ✅ Complete</span>
+                        <h3>Foundation Setup</h3>
+                    </div>
+                    <p>Core infrastructure and basic pipeline established with mock implementations.</p>
+                    <ul class="task-list">
+                        <li>Fastify server with /recommend and /health endpoints</li>
+                        <li>5-stage pipeline orchestrator architecture</li>
+                        <li>Redis integration for feature storage</li>
+                        <li>Docker Compose setup (Redis, Qdrant, Kafka)</li>
+                        <li>Mock data for testing (users, movies)</li>
+                        <li>Basic scoring and reranking logic</li>
+                    </ul>
+                </div>
+
+                <div class="phase-card">
+                    <div class="phase-header">
+                        <span class="phase-badge phase-2">Phase 2 - 🔄 Next</span>
+                        <h3>Vector Database Integration</h3>
+                    </div>
+                    <p>Replace mock vector search with real Qdrant implementation for semantic similarity.</p>
+                    <ul class="task-list">
+                        <li>Initialize Qdrant JS client in retrieval service</li>
+                        <li>Create collection schema for movie embeddings</li>
+                        <li>Build seeding script to populate Qdrant from mockData</li>
+                        <li>Implement K-NN search query (Top 50 candidates)</li>
+                        <li>Replace cosineSimilarity with Qdrant API calls</li>
+                        <li>Add error handling and fallback logic</li>
+                        <li>Benchmark latency (<10ms target)</li>
+                    </ul>
+                </div>
+
+                <div class="phase-card">
+                    <div class="phase-header">
+                        <span class="phase-badge phase-3">Phase 3 - 📡 Planned</span>
+                        <h3>Event Streaming & ML Pipeline</h3>
+                    </div>
+                    <p>Add real-time event processing and deploy actual machine learning models.</p>
+                    <ul class="task-list">
+                        <li>Kafka producer module for click/view events</li>
+                        <li>Kafka consumer to update user features in Redis</li>
+                        <li>Train CTR prediction model (XGBoost/LightGBM)</li>
+                        <li>Export model to ONNX format</li>
+                        <li>Replace mockScorer with ONNX Runtime</li>
+                        <li>Batch inference optimization (<5ms per item)</li>
+                        <li>Model versioning and A/B testing framework</li>
+                    </ul>
+                </div>
+
+                <div class="phase-card">
+                    <div class="phase-header">
+                        <span class="phase-badge phase-4">Phase 4 - 🧪 Planned</span>
+                        <h3>Testing & Observability</h3>
+                    </div>
+                    <p>Comprehensive testing suite and monitoring infrastructure.</p>
+                    <ul class="task-list">
+                        <li>Unit tests for all pipeline stages (Jest)</li>
+                        <li>Integration tests with Docker containers</li>
+                        <li>Load testing (k6 or Artillery)</li>
+                        <li>Structured logging with Pino</li>
+                        <li>Prometheus metrics export</li>
+                        <li>Grafana dashboards (latency, throughput, errors)</li>
+                        <li>Alert rules for SLA violations</li>
+                    </ul>
+                </div>
+
+                <div class="phase-card">
+                    <div class="phase-header">
+                        <span class="phase-badge phase-5">Phase 5 - 🚀 Future</span>
+                        <h3>Production & Scalability</h3>
+                    </div>
+                    <p>Production deployment, scaling, and advanced features.</p>
+                    <ul class="task-list">
+                        <li>Dockerize Node.js application</li>
+                        <li>Kubernetes deployment manifests</li>
+                        <li>Horizontal pod autoscaling</li>
+                        <li>Circuit breaker pattern (opossum)</li>
+                        <li>Response caching layer (hot users)</li>
+                        <li>Blue-green deployment pipeline</li>
+                        <li>Multi-region replication strategy</li>
+                        <li>Cold start optimization</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tab 3: Timeline -->
+            <div class="tab-content">
+                <h2 style="margin-bottom: 1.5rem; color: #111827;">Project Timeline</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h3 style="color: var(--primary); margin-bottom: 0.5rem;">Week 1-2: Phase 1 ✅</h3>
+                        <p style="color: #6b7280; line-height: 1.6;">
+                            Foundation complete. Server running with mock pipeline. Redis connected.
+                            Docker services configured. Basic end-to-end flow working.
+                        </p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h3 style="color: var(--success); margin-bottom: 0.5rem;">Week 3-4: Phase 2 🔄</h3>
+                        <p style="color: #6b7280; line-height: 1.6;">
+                            <strong>Current Focus:</strong> Integrate Qdrant for vector search.
+                            Seed embeddings, implement K-NN queries, benchmark performance.
+                            Target: Sub-10ms vector search latency.
+                        </p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h3 style="color: var(--warning); margin-bottom: 0.5rem;">Week 5-7: Phase 3</h3>
+                        <p style="color: #6b7280; line-height: 1.6;">
+                            Kafka integration for event streaming. Train and deploy CTR model.
+                            Real-time feature updates. Model serving with ONNX Runtime.
+                        </p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h3 style="color: var(--purple); margin-bottom: 0.5rem;">Week 8-9: Phase 4</h3>
+                        <p style="color: #6b7280; line-height: 1.6;">
+                            Testing infrastructure. Unit + integration tests.
+                            Prometheus metrics. Grafana dashboards. Load testing.
+                        </p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h3 style="color: var(--pink); margin-bottom: 0.5rem;">Week 10-12: Phase 5</h3>
+                        <p style="color: #6b7280; line-height: 1.6;">
+                            Production deployment. Kubernetes setup. Auto-scaling.
+                            Circuit breakers. Caching optimization. Multi-region setup.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 4: Tech Stack -->
+            <div class="tab-content">
+                <h2 style="margin-bottom: 1.5rem; color: #111827;">Technology Stack</h2>
+                <div class="tech-stack">
+                    <div class="tech-item">
+                        <div class="icon">⚡</div>
+                        <div class="name">Fastify</div>
+                        <div class="desc">High-performance HTTP server</div>
+                    </div>
+
+                    <div class="tech-item">
+                        <div class="icon">🔴</div>
+                        <div class="name">Redis</div>
+                        <div class="desc">Feature store (sub-1ms)</div>
+                    </div>
+
+                    <div class="tech-item">
+                        <div class="icon">🔵</div>
+                        <div class="name">Qdrant</div>
+                        <div class="desc">Vector similarity search</div>
+                    </div>
+
+                    <div class="tech-item">
+                        <div class="icon">📡</div>
+                        <div class="name">Kafka</div>
+                        <div class="desc">Event streaming platform</div>
+                    </div>
+
+                    <div class="tech-item">
+                        <div class="icon">🤖</div>
+                        <div class="name">ONNX Runtime</div>
+                        <div class="desc">ML model inference</div>
+                    </div>
+
+                    <div class="tech-item">
+                        <div class="icon">🐳</div>
+                        <div class="name">Docker</div>
+                        <div class="desc">Containerization</div>
+                    </div>
+
+                    <div class="tech-item">
+                        <div class="icon">☸️</div>
+                        <div class="name">Kubernetes</div>
+                        <div class="desc">Orchestration (future)</div>
+                    </div>
+
+                    <div class="tech-item">
+                        <div class="icon">📊</div>
+                        <div class="name">Prometheus</div>
+                        <div class="desc">Metrics & monitoring</div>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 3rem; margin-bottom: 1rem; color: #111827;">Performance Targets</h3>
+                <div class="architecture-grid">
+                    <div class="arch-card">
+                        <h4>⚡ Latency Goals</h4>
+                        <ul>
+                            <li>Total P95: <30ms</li>
+                            <li>Vector Search: <10ms</li>
+                            <li>Redis Fetch: <2ms</li>
+                            <li>ML Inference: <5ms</li>
+                            <li>Reranking: <1ms</li>
+                        </ul>
+                    </div>
+
+                    <div class="arch-card">
+                        <h4>📈 Throughput</h4>
+                        <ul>
+                            <li>Target: 10K RPS</li>
+                            <li>Concurrent Users: 100K</li>
+                            <li>Daily Requests: 500M+</li>
+                        </ul>
+                    </div>
+
+                    <div class="arch-card">
+                        <h4>🎯 Accuracy Metrics</h4>
+                        <ul>
+                            <li>CTR Lift: >15%</li>
+                            <li>Precision@10: >0.6</li>
+                            <li>NDCG@10: >0.7</li>
+                            <li>Diversity Score: >0.5</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            securityLevel: "strict",
+            theme: 'default',
+            flowchart: {
+                curve: 'basis',
+                padding: 20
+            }
+        });
+
+        function switchTab(index) {
+            // Update tab buttons
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach((tab, i) => {
+                if (i === index) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+
+            // Update tab content
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach((content, i) => {
+                if (i === index) {
+                    content.classList.add('active');
+                } else {
+                    content.classList.remove('active');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
