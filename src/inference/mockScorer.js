@@ -2,25 +2,28 @@
 // Mock CTR Scorer - Phase 3 me real ONNX model se replace hoga
 
 function calculateMockScore(userFeatures, itemFeatures) {
-  let score = 0.5;
+  let score = 0.5; // base score
 
   // High popularity = higher score
   if (itemFeatures.popularity) score += itemFeatures.popularity * 0.2;
 
   // Category match = big boost
   if (userFeatures.preferred_category && itemFeatures.category) {
-    if (userFeatures.preferred_category === itemFeatures.category) score += 0.2;
+    if (userFeatures.preferred_category === itemFeatures.category) {
+      score += 0.3;
+    }
   }
 
-  // High CTR item = boost
-  if (itemFeatures.ctr) score += itemFeatures.ctr;
+  // High CTR = slight boost
+  if (itemFeatures.ctr) score += itemFeatures.ctr * 0.5;
 
-  return Math.max(0.0, Math.min(1.0, score));
+  // Cap at 1.0
+  return Math.min(score, 1.0);
 }
 
-export function scoreItems(userFeatures, itemsFeaturesList) {
-  return itemsFeaturesList.map((item) => ({
+export function scoreItems(userFeatures, candidates) {
+  return candidates.map((item) => ({
     ...item,
-    score: Number(calculateMockScore(userFeatures, item).toFixed(4)),
+    ml_score: parseFloat(calculateMockScore(userFeatures, item).toFixed(4)),
   }));
 }

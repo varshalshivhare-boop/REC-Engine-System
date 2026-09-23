@@ -1,38 +1,46 @@
-// sabi user ke data ki extra information dalna
+// src/features/featureStore.js
+// In-memory feature store (Redis ka fallback)
+// Sabi user ke data ki extra information
 
 const itemFeatures = {
-    "A": {
-        popularity: 0.8,
-        ctr: 0.15,
-        category: "action"
-    },
-    "B": {
-        popularity: 0.5,
-        ctr: 0.08,
-        category: "comedy"
-    },
-    "C": {
-        popularity: 0.7,
-        ctr: 0.12,
-        category: "action"
-    }
+  "A": {
+    popularity: 0.8,
+    ctr: 0.15,
+    category: "action",
+    in_stock: true,
+    is_sponsored: false,
+    title: "Inception",
+  },
+  "B": {
+    popularity: 0.5,
+    ctr: 0.08,
+    category: "comedy",
+    in_stock: true,
+    is_sponsored: false,
+    title: "The Hangover",
+  },
+  "C": {
+    popularity: 0.7,
+    ctr: 0.12,
+    category: "action",
+    in_stock: true,
+    is_sponsored: true,
+    title: "Mad Max: Fury Road",
+  },
+  "D": {
+    popularity: 0.6,
+    ctr: 0.10,
+    category: "comedy",
+    in_stock: false,
+    is_sponsored: false,
+    title: "Superbad",
+  },
 };
 
-// har user ki extra info uske sth merge krna  aur return krna
-
-function enrichWithFeatures(candidates) {
-    const enrichedCandidates = candidates.map((candidate) => {
-        const features = itemFeatures[candidate.itemId];
-
-        return {
-            ...candidate,
-            ...features
-        };
-    });
-
-    return enrichedCandidates;
+export function getItemFeaturesLocal(itemId) {
+  return itemFeatures[itemId] || null;
 }
 
-module.exports = {
-    itemFeatures,enrichWithFeatures
-};
+export function getAllItemFeatures() {
+  return itemFeatures;
+}

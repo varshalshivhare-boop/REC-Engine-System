@@ -1,3 +1,5 @@
+// src/kafka/consumer.js
+// Kafka Consumer - user-clicks topic sunता है aur Redis update karta hai
 import kafka from "./kafkaClient.js";
 import redis from "../redis/redisStore.js";
 
@@ -11,25 +13,41 @@ async function runConsumer() {
 
   await consumer.run({
     eachMessage: async ({ topic, partition, message }) => {
-      const event = JSON.parse(message.value.toString());
-      console.log(`\n[Kafka] 🚀 Consumed event: User ${event.userId} clicked Item ${event.itemId}`);
+      try {
+        const event = JSON.parse(message.value.toString());
+        console.log(`\n[Kafka] 🚀 Consumed event: User ${event.userId} clicked Item ${event.itemId}`);
 
-      // Background Real-time Feature Update in Redis
-      const userKey = `user:${event.userId}`;
-      const userProfileRaw = await redis.get(userKey);
-      
-      if (userProfileRaw) {
-        const userProfile = JSON.parse(userProfileRaw);
-        
-        // Dynamically increment real-time features
-        userProfile.total_clicks = (userProfile.total_clicks || 0) + 1;
-        userProfile.last_clicked_item = event.itemId;
-        
-        await redis.set(userKey, JSON.stringify(userProfile));
-        console.log(`  ➔ [Redis Update] Updated profile for ${event.userId} (total_clicks: ${userProfile.total_clicks})`);
+        // Redis mein click count increment karo
+        await redis.hincrby(`clicks:${event.userId}`, event.itemId, 1);
+
+        // Item ki CTR update karo (clicks / total impressions approximation)
+        const clicks = await redis.hget(`clicks:${event.userId}`, event.itemId);
+        console.log(`[Kafka] 📊 Total clicks by ${event.userId} on ${event.itemId}: ${clicks}`);
+
+        // Event timestamp bhi store karo
+        await redis.set(
+          `last_click:${event.userId}:${event.itemId}`,
+          event.timestamp,
+          "EX",
+          86400 // 24 ghante baad expire
+        );
+      } catch (err) {
+        console.error("[Kafka] ❌ Error processing message:", err.message);
       }
     },
   });
 }
 
-runConsumer().catch(console.error);
+export async function startConsumer() {
+  try {
+    await runConsumer();
+  } catch (err) {
+    console.error("❌ Kafka Consumer failed to start:", err.message);
+    console.warn("⚠️  Click tracking disabled. Kafka running hai? (docker compose up -d)");
+  }
+}
+
+export async function stopConsumer() {
+  await consumer.disconnect();
+  console.log("🔌 Kafka Consumer Disconnected");
+}
